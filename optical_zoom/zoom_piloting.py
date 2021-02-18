@@ -75,7 +75,7 @@ class ZoomController():
         self.ser.write(bytes(command + '\n', 'utf8'))
         _ = self.ser.readline()
 
-    def homing(self, side: str = 'both') -> None:
+    def homing(self, side: str) -> None:
         '''
         Use serial port to perform homing sequence on given camera.
 
