@@ -30,11 +30,6 @@ class ZoomController:
             speed: int = 10000) -> None:
         """Connect to the serial port and run the initialisation sequence."""
         self.ser = serial.Serial(port=port, baudrate=baudrate, timeout=timeout)
-
-        self.ser.open()
-        self.ser.flushInput()
-        self.ser.flushOutput()
-
         self.speed = speed
 
         init_seq = 'G100 P9 L144 N0 S0 F1 R1'
@@ -60,13 +55,13 @@ class ZoomController:
         self._send_custom_command(side, zoom, focus)
 
     def _send_custom_command(self, side: str, zoom: int, focus: int):
-        if not (0 < zoom < 600):
+        if not (0 <= zoom <= 600):
             raise ValueError('Zoom value must be between 0 and 600.')
-        if not (0 < focus < 500):
+        if not (0 <= focus <= 500):
             raise ValueError('Focus value must be between 0 and 500.')
 
         mot = self.motors[self.connector[side]]
-        command = f'G1 {mot["zoom"]} {zoom} {mot["focus"]} {focus} F {self.speed}'
+        command = f'G1 {mot["zoom"]}{zoom} {mot["focus"]}{focus} F{self.speed}'
         self.ser.write(bytes(command + '\n', 'utf8'))
         _ = self.ser.readline()
 
@@ -95,6 +90,6 @@ class ZoomController:
         Args:
             speed_value: int between 4000 and 40000
         """
-        if not (4000 < speed_value < 40000):
+        if not (4000 <= speed_value <= 40000):
             raise ValueError('Speed value must be between 4000 and 40000')
         self.speed = speed_value

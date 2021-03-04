@@ -9,7 +9,7 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
 setup(
-    name='zoom_korokesu',
+    name='zoom_kurokesu',
     version='1.0.0',
     packages=find_packages(exclude=['tests']),
 
@@ -21,7 +21,7 @@ setup(
 
     author='Pollen Robotics',
     author_email='contact@pollen-robotics.com',
-    url='https://github.com/pollen-robotics/zoom_korokesu',
+    url='https://github.com/pollen-robotics/zoom_kurokesu',
 
     description="Python Package for controlling the zoom of Kurokesu's camera.",
     long_description=long_description,
