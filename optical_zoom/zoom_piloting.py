@@ -42,7 +42,7 @@ class ZoomController:
         response = self.ser.readline()
 
         if response.decode() != 'ok\r\n':
-            raise IOError('Initialization of zoom controller failed, check that the control board is correctlyplugged in.')
+            raise IOError('Initialization of zoom controller failed, check that the control board is correctly plugged in.')
 
     def send_zoom_command(self, side: str, zoom_level: str) -> None:
         """Send a zoom command.
