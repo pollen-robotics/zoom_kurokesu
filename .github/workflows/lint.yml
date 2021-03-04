@@ -1,8 +1,8 @@
-name: Checks on push.
+name: Lint using flake8.
 on: [push]
 
 jobs:
-  checks:
+  lint:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -14,8 +14,3 @@ jobs:
       run: |
         pip install flake8 flake8-docstrings
         python -m flake8 . --count --show-source --statistics
-
-    - name: Pytest
-      run: |
-        pip install pytest
-        python -m pytest .
