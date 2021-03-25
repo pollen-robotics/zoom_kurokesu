@@ -1,6 +1,6 @@
 # Zoom Kurokesu
 
-Python library to pilote the dual zoom board controller from Kurokesu. Visit [Kurokesu's website]() to get more information about its products. 
+Python library to pilote the dual zoom board controller from Kurokesu. Visit [Kurokesu's website](https://www.kurokesu.com/home/) to get more information about its products. 
 
 Install:
 ```bash
