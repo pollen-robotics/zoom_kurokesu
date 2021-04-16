@@ -17,9 +17,16 @@ class ZoomController:
     }
 
     zoom_pos = {
-        'in': {'zoom': 500, 'focus': 20},
-        'inter': {'zoom': 350, 'focus': 320},
-        'out': {'zoom': 50, 'focus': 500}
+        'left': {
+            'in': {'zoom': 401, 'focus': 168},
+            'inter': {'zoom': 200, 'focus': 358},
+            'out': {'zoom': 33, 'focus': 358},
+        },
+        'right': {
+            'in': {'zoom': 401, 'focus': 40},
+            'inter': {'zoom': 200, 'focus': 425},
+            'out': {'zoom': 33, 'focus': 500},
+        },
     }
 
     def __init__(
@@ -51,7 +58,7 @@ class ZoomController:
                  objects, 'out' for close objects, 'inter' is in between
                  'in' and 'out' levels
         """
-        zoom, focus = self.zoom_pos[zoom_level].values()
+        zoom, focus = self.zoom_pos[side][zoom_level].values()
         self._send_custom_command(side, zoom, focus)
 
     def _send_custom_command(self, side: str, zoom: int, focus: int):
