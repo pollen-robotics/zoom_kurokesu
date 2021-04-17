@@ -62,11 +62,6 @@ class ZoomController:
         self._send_custom_command(side, zoom, focus)
 
     def _send_custom_command(self, side: str, zoom: int, focus: int):
-        if not (0 <= zoom <= 600):
-            raise ValueError('Zoom value must be between 0 and 600.')
-        if not (0 <= focus <= 500):
-            raise ValueError('Focus value must be between 0 and 500.')
-
         mot = self.motors[self.connector[side]]
         command = f'G1 {mot["zoom"]}{zoom} {mot["focus"]}{focus} F{self.speed}'
         self.ser.write(bytes(command + '\n', 'utf8'))
@@ -80,16 +75,20 @@ class ZoomController:
         """
         mot = self.motors[self.connector[side]]
 
-        sequence = ['G91',
-                    'F30000',
-                    'G1 ' + mot['focus'] + '-500',
-                    'G1 ' + mot['zoom'] + '-1200',
-                    'G90',
-                    'G92 ' + mot['zoom'] + '0 ' + mot['focus'] + '0']
+        cmd = 'G92 ' + mot['zoom'] + '0 ' + mot['focus'] + '0'
+        self.ser.write(bytes(cmd + '\n', 'utf8'))
+        _ = self.ser.readline()
+        time.sleep(0.1)
 
-        for seq in sequence:
-            self.ser.write(bytes(seq + '\n', 'utf8'))
-            _ = self.ser.readline()
+        self._send_custom_command(side, 0, -500)
+        time.sleep(1)
+        self._send_custom_command(side, -600, -500)
+        time.sleep(1)
+
+        cmd = 'G92 ' + mot['zoom'] + '0 ' + mot['focus'] + '0'
+        self.ser.write(bytes(cmd + '\n', 'utf8'))
+        _ = self.ser.readline()
+        time.sleep(0.1)
 
     def set_speed(self, speed_value: int) -> None:
         """Set motors speed.
