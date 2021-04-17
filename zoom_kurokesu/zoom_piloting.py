@@ -1,6 +1,7 @@
 """Python Package for controlling the zoom of Kurokesu's camera."""
 
 import serial
+import time
 
 
 class ZoomController:
@@ -18,14 +19,14 @@ class ZoomController:
 
     zoom_pos = {
         'left': {
-            'in': {'zoom': 401, 'focus': 168},
-            'inter': {'zoom': 200, 'focus': 358},
-            'out': {'zoom': 33, 'focus': 358},
+            'in': {'zoom': 457, 'focus': 70},
+            'inter': {'zoom': 270, 'focus': 331},
+            'out': {'zoom': 0, 'focus': 455},
         },
         'right': {
-            'in': {'zoom': 401, 'focus': 40},
-            'inter': {'zoom': 200, 'focus': 425},
-            'out': {'zoom': 33, 'focus': 500},
+            'in': {'zoom': 457, 'focus': 42},
+            'inter': {'zoom': 270, 'focus': 321},
+            'out': {'zoom': 0, 'focus': 445},
         },
     }
 
