@@ -64,10 +64,13 @@ class ZoomController:
 
     def _send_custom_command(self, side: str, zoom: int, focus: int):
         mot = self.motors[self.connector[side]]
-        command = f'G1 {mot["zoom"]}{zoom} {mot["focus"]}{focus} F{self.speed}'
+        command = f'G1 {mot["zoom"]}{zoom} F{self.speed}'
         self.ser.write(bytes(command + '\n', 'utf8'))
         _ = self.ser.readline()
-
+        command = f'G1 {mot["focus"]}{focus} F{self.speed}'
+        self.ser.write(bytes(command + '\n', 'utf8'))
+        _ = self.ser.readline()
+       
     def homing(self, side: str) -> None:
         """Use serial port to perform homing sequence on given camera.
 
