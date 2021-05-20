@@ -47,8 +47,8 @@ class ZoomController:
         if response.decode() != 'ok\r\n':
             raise IOError('Initialization of zoom controller failed, check that the control board is correctly plugged in.')
 
-    def send_zoom_command(self, side: str, zoom_level: str) -> None:
-        """Send a zoom command.
+    def set_zoom_level(self, side: str, zoom_level: str) -> None:
+        """Set zoom level of a given camera.
 
         Given the camera side and the zoom level required,
         produce the corresponding G-code and send it over the serial port.
