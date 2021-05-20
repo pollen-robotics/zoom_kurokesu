@@ -81,10 +81,13 @@ class ZoomController:
         self.send_custom_zoom_two_cameras(val_left, val_right)
 
     def _send_custom_command(self, side: str, zoom: int, focus: int):
-        mot = self.motors[self.connector[side]]
-        command = f'G1 {mot["zoom"]}{zoom} {mot["focus"]}{focus} F{self.speed}'
-        self.ser.write(bytes(command + '\n', 'utf8'))
-        _ = self.ser.readline()
+            mot = self.motors[self.connector[side]]
+            command = f'G1 {mot["zoom"]}{zoom} F{self.speed}'
+            self.ser.write(bytes(command + '\n', 'utf8'))
+            _ = self.ser.readline()
+            command = f'G1 {mot["focus"]}{focus} F{self.speed}'
+            self.ser.write(bytes(command + '\n', 'utf8'))
+            _ = self.ser.readline()
 
     def send_custom_zoom_two_cameras(self, left_zoom: int, right_zoom: int):
         """Send custom zoom values to both cameras.
