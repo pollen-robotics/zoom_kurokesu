@@ -70,7 +70,8 @@ class ZoomController:
         Args:
             commands: dictionnary containing the requested camera name along
             with requested focus and zoom value. Instructions for both cameras
-            can be sent in one call of this method.
+            can be sent in one call of this method. However, instructions will
+            be sent sequentially and there is no synchronization.
         """
         for side, cmd in commands.items():
             if side not in ['left', 'right']:
