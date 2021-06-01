@@ -73,13 +73,11 @@ class ZoomController:
         """
         for side, cmd in commands.items():
             if side not in ['left', 'right']:
-                print("Keys should be either 'left' or 'right'.")
-                return
+                raise ValueError("Keys should be either 'left' or 'right'.")
             motor = self.motors[self.connector[side]]
             for target, value in cmd.items():
                 if target not in ['zoom', 'focus']:
-                    print("Each command should be either on 'focus' or 'zoom'.")
-                    return
+                    raise ValueError("Each command should be either on 'focus' or 'zoom'.")
                 command = f'G1 {motor[target]}{value} F{self.speed}'
                 self.ser.write(bytes(command + '\n', 'utf8'))
                 _ = self.ser.readline()
