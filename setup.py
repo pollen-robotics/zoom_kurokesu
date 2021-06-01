@@ -10,7 +10,7 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
 
 setup(
     name='zoom_kurokesu',
-    version='1.0.0',
+    version='1.1.0',
     packages=find_packages(exclude=['tests']),
 
     install_requires=['pyserial'],
