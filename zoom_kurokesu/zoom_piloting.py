@@ -3,6 +3,8 @@
 import serial
 import time
 
+from typing import List
+
 
 class ZoomController:
     """Zoom controller class."""
@@ -47,8 +49,8 @@ class ZoomController:
         if response.decode() != 'ok\r\n':
             raise IOError('Initialization of zoom controller failed, check that the control board is correctly plugged in.')
 
-    def send_zoom_command(self, side: str, zoom_level: str) -> None:
-        """Send a zoom command.
+    def set_zoom_level(self, side: str, zoom_level: str) -> None:
+        """Set zoom level of a given camera.
 
         Given the camera side and the zoom level required,
         produce the corresponding G-code and send it over the serial port.
@@ -60,16 +62,29 @@ class ZoomController:
                  'in' and 'out' levels
         """
         zoom, focus = self.zoom_pos[side][zoom_level].values()
-        self._send_custom_command(side, zoom, focus)
+        self._send_custom_command({side: {'zoom': zoom, 'focus': focus}})
 
-    def _send_custom_command(self, side: str, zoom: int, focus: int):
-        mot = self.motors[self.connector[side]]
-        command = f'G1 {mot["zoom"]}{zoom} F{self.speed}'
-        self.ser.write(bytes(command + '\n', 'utf8'))
-        _ = self.ser.readline()
-        command = f'G1 {mot["focus"]}{focus} F{self.speed}'
-        self.ser.write(bytes(command + '\n', 'utf8'))
-        _ = self.ser.readline()
+    def _send_custom_command(self, commands: dict):
+        """Send custom command to camera controller.
+
+        Args:
+            commands: dictionnary containing the requested camera name along
+            with requested focus and zoom value. Instructions for both cameras
+            can be sent in one call of this method. However, instructions will
+            be sent sequentially and there is no synchronization.
+        """
+        for side, cmd in commands.items():
+            if side not in ['left', 'right']:
+                print("Keys should be either 'left' or 'right'.")
+                return
+            motor = self.motors[self.connector[side]]
+            for target, value in cmd.items():
+                if target not in ['zoom', 'focus']:
+                    print("Each command should be either on 'focus' or 'zoom'.")
+                    return
+                command = f'G1 {motor[target]}{value} F{self.speed}'
+                self.ser.write(bytes(command + '\n', 'utf8'))
+                _ = self.ser.readline()
 
     def homing(self, side: str) -> None:
         """Use serial port to perform homing sequence on given camera.
@@ -83,10 +98,9 @@ class ZoomController:
         self.ser.write(bytes(cmd + '\n', 'utf8'))
         _ = self.ser.readline()
         time.sleep(0.1)
-
-        self._send_custom_command(side, 0, -500)
+        self._send_custom_command({side: {'zoom': 0, 'focus': -500}})
         time.sleep(1)
-        self._send_custom_command(side, -600, -500)
+        self._send_custom_command({side: {'zoom': -600, 'focus': -500}})
         time.sleep(1)
 
         cmd = 'G92 ' + mot['zoom'] + '0 ' + mot['focus'] + '0'
