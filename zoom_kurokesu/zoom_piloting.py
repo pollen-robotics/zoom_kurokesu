@@ -3,8 +3,6 @@
 import serial
 import time
 
-from typing import List
-
 
 class ZoomController:
     """Zoom controller class."""
