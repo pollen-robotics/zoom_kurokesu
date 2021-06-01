@@ -9,7 +9,9 @@ pip install zoom_kurokesu
 
 ## Use the library
 
-Three positions are pre defined.
+You can get/set either the zoom or focus of both cameras.
+
+There is also three pre defined positions.
 
 - 'in': for close objects
 - 'out': for further objects
