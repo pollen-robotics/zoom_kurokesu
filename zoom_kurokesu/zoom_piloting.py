@@ -21,12 +21,12 @@ class ZoomController:
         'left': {
             'in': {'zoom': 457, 'focus': 70},
             'inter': {'zoom': 270, 'focus': 331},
-            'out': {'zoom': 0, 'focus': 455},
+            'out': {'zoom': 60, 'focus': 455},
         },
         'right': {
             'in': {'zoom': 457, 'focus': 42},
             'inter': {'zoom': 270, 'focus': 321},
-            'out': {'zoom': 0, 'focus': 445},
+            'out': {'zoom': 60, 'focus': 445},
         },
     }
 
